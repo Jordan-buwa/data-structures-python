@@ -19,7 +19,6 @@ setup(
     classifiers= [
         "Programming Language :: Python :: 3",
         "licence :: OSI Approved :: MIT Licence",
-        "Operating System :: OS Independant",
     ],
     long_description = description,
     long_description_content_type= 'text/markdown',
