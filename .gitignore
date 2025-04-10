@@ -1,5 +1,5 @@
 ds_venv/
 site/
 dist/
-data_structure_py_jordankbm.egg-info
+data_structure_py_jordankbm.egg-info/
 setup.py
