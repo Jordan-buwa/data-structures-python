@@ -1,0 +1,830 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../tree/">
+      
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Node - Implementation of various data structures in Python from scratch</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-node-class-for-tree-structures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Implementation of various data structures in Python from scratch" class="md-header__button md-logo" aria-label="Implementation of various data structures in Python from scratch" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Implementation of various data structures in Python from scratch
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Node
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Jordan-buwa/data-structures-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Implementation of various data structures in Python from scratch" class="md-nav__button md-logo" aria-label="Implementation of various data structures in Python from scratch" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Implementation of various data structures in Python from scratch
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Jordan-buwa/data-structures-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Array
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linked_list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linked List
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Queue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Binary Tree
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Node
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Node
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class Definition
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__init__self-value-rightnone-leftnone" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__(self, value, right=None, left=None)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build_graphself-graphnone-posnone-depth0-x0-dx05" class="md-nav__link">
+    <span class="md-ellipsis">
+      build_graph(self, graph=None, pos=None, depth=0, x=0, dx=0.5)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#draw_graphself" class="md-nav__link">
+    <span class="md-ellipsis">
+      draw_graph(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class Definition
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__init__self-value-rightnone-leftnone" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__(self, value, right=None, left=None)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build_graphself-graphnone-posnone-depth0-x0-dx05" class="md-nav__link">
+    <span class="md-ellipsis">
+      build_graph(self, graph=None, pos=None, depth=0, x=0, dx=0.5)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#draw_graphself" class="md-nav__link">
+    <span class="md-ellipsis">
+      draw_graph(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="the-node-class-for-tree-structures">The <code>Node</code> Class for Tree Structures</h1>
+<p>This document explains the <code>Node</code> class, which serves as a fundamental building block for creating tree-like data structures, particularly binary trees. This class includes functionality to represent a node with a value and references to its left and right children, as well as methods for building and drawing a graph representation of the tree using the <code>networkx</code> and <code>matplotlib</code> libraries.</p>
+<h2 id="class-definition">Class Definition</h2>
+<pre><code class="language-python">import networkx as nx
+import matplotlib.pyplot as plt
+
+class Node:
+  def __init__(self, value, right = None, left = None):
+    self.value = value
+    self.right = right
+    self.left = left
+
+
+  def build_graph(self, graph=None, pos=None, depth=0, x=0, dx=0.5):
+      if graph is None:
+          graph = nx.DiGraph()
+      if pos is None:
+          pos = {}
+
+      graph.add_node(self.value)
+      pos[self.value] = (x, -depth)  # Invert depth for vertical tree
+
+      if self.left:
+          graph.add_edge(self.value, self.left.value)
+          graph, pos = self.left.build_graph(graph, pos, depth + 1, x - dx / 2, dx / 2)
+      if self.right:
+          graph.add_edge(self.value, self.right.value)
+          graph, pos = self.right.build_graph(graph, pos, depth + 1, x + dx / 2, dx / 2)
+
+      return graph, pos
+
+  def draw_graph(self):
+      &quot;&quot;&quot;
+      Builds the graph representation and then draws it using matplotlib.
+      &quot;&quot;&quot;
+      graph, pos = self.build_graph()
+      nx.draw(graph, pos, with_labels=True, node_size=1000, node_color=&quot;skyblue&quot;,
+              font_size=10, font_weight=&quot;bold&quot;, arrows=False)
+      plt.show()
+</code></pre>
+<h2 id="__init__self-value-rightnone-leftnone"><code>__init__(self, value, right=None, left=None)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This is the constructor for the <code>Node</code> class. It initializes a new node object.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>value</code>: The data to be stored within this node. This can be any Python object.</li>
+<li><code>left</code>: An optional reference to the left child node. If no left child is specified during initialization, it defaults to <code>None</code>.</li>
+<li><code>right</code>: An optional reference to the right child node. If no right child is specified during initialization, it defaults to <code>None</code>.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong> When a <code>Node</code> object is created, this method sets the <code>value</code> attribute to the provided <code>value</code>, the <code>left</code> attribute to the provided <code>left</code> node (or <code>None</code>), and the <code>right</code> attribute to the provided <code>right</code> node (or <code>None</code>). These attributes allow you to link nodes together to form tree structures.</li>
+</ul>
+<h2 id="build_graphself-graphnone-posnone-depth0-x0-dx05"><code>build_graph(self, graph=None, pos=None, depth=0, x=0, dx=0.5)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This method recursively constructs a directed graph representation of the tree rooted at the current <code>Node</code> object using the <code>networkx</code> library. This graph is designed to be used for visualization.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>graph</code>: An optional <code>networkx.DiGraph</code> object. If no graph is provided, a new one is created. This allows you to build the graph incrementally across multiple nodes.</li>
+<li><code>pos</code>: An optional dictionary to store the (x, y) coordinates of each node in the graph for plotting. If no position dictionary is provided, a new one is created.</li>
+<li><code>depth</code>: The current depth of the node in the tree. This is used to determine the vertical position of the node in the graph. The root node typically has a depth of 0.</li>
+<li><code>x</code>: The horizontal position of the current node. This is used to position nodes side by side.</li>
+<li><code>dx</code>: The horizontal spacing factor between child nodes. This helps to prevent nodes from overlapping in the visualization.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong><ol>
+<li><strong>Initialization:</strong> If <code>graph</code> or <code>pos</code> are not provided, they are initialized as a new directed graph and an empty dictionary, respectively.</li>
+<li><strong>Add Current Node:</strong> The <code>value</code> of the current node is added as a node to the <code>graph</code>. Its position in the 2D layout is calculated based on its <code>depth</code> and <code>x</code> coordinate and stored in the <code>pos</code> dictionary. The depth is negated (<code>-depth</code>) to create a visual representation where deeper levels of the tree appear lower.</li>
+<li><strong>Recursive Calls for Children:</strong><ul>
+<li>If the current node has a <code>left</code> child, the <code>build_graph</code> method is recursively called on the <code>left</code> child. The <code>depth</code> is incremented, and the horizontal position <code>x</code> is adjusted to the left (<code>x - dx / 2</code>). The <code>dx</code> value is halved for each level to create tighter spacing at deeper levels. An edge is added to the <code>graph</code> connecting the current node to its left child.</li>
+<li>Similarly, if the current node has a <code>right</code> child, <code>build_graph</code> is called recursively on the <code>right</code> child with an incremented <code>depth</code> and an adjusted horizontal position to the right (<code>x + dx / 2</code>). An edge is added connecting the current node to its right child.</li>
+</ul>
+</li>
+<li><strong>Return Values:</strong> The method returns the constructed <code>graph</code> and the <code>pos</code> dictionary containing the layout of the nodes.</li>
+</ol>
+</li>
+</ul>
+<h2 id="draw_graphself"><code>draw_graph(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This method utilizes the <code>build_graph</code> method to create the graph representation of the tree and then uses the <code>matplotlib</code> library to visually render this graph.</li>
+<li><strong>Parameters:</strong> This method does not take any explicit parameters.</li>
+<li><strong>Functionality:</strong><ol>
+<li><strong>Build the Graph:</strong> It calls the <code>self.build_graph()</code> method to get the <code>networkx</code> graph object (<code>graph</code>) and the node position dictionary (<code>pos</code>).</li>
+<li><strong>Draw the Graph:</strong> It uses the <code>nx.draw()</code> function from <code>networkx</code> with the following arguments:<ul>
+<li><code>graph</code>: The graph to be drawn.</li>
+<li><code>pos</code>: The dictionary of node positions calculated by <code>build_graph</code>.</li>
+<li><code>with_labels=True</code>: Ensures that the node values are displayed as labels on the nodes.</li>
+<li><code>node_size=1000</code>: Sets the size of the circular nodes in the visualization.</li>
+<li><code>node_color="skyblue"</code>: Sets the fill color of the nodes.</li>
+<li><code>font_size=10</code>, <code>font_weight="bold"</code>: Styles the text labels on the nodes.</li>
+<li><code>arrows=False</code>: Prevents the drawing of arrows on the edges, as we are representing an undirected tree structure visually (even though <code>DiGraph</code> is used internally for layout purposes).</li>
+</ul>
+</li>
+<li><strong>Show the Plot:</strong> Finally, <code>plt.show()</code> from <code>matplotlib.pyplot</code> is called to display the generated graph visualization in a separate window.</li>
+</ol>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<p>This <code>Node</code> class can be used as the basis for creating various tree-based data structures, such as binary trees, binary search trees, and more complex tree structures. By linking <code>Node</code> objects using their <code>left</code> and <code>right</code> attributes, you can build the desired tree topology. The <code>build_graph</code> and <code>draw_graph</code> methods provide a convenient way to visualize these tree structures for debugging, understanding, or presentation purposes. You would typically create a root <code>Node</code> object and then connect other <code>Node</code> objects as its descendants to build the tree. Then, calling <code>draw_graph()</code> on the root node would visualize the entire connected tree.</p>
+<pre><code class="language-markdown">## Example Usage
+
+This section demonstrates how to create a simple binary tree using the `Node` class and visualize it using the `draw_graph()` method. It also shows how to access the underlying `networkx` graph object and the node positions.
+
+```python
+# Example usage:
+root = Node(8)
+root.left = Node(3)
+root.right = Node(10)
+root.left.left = Node(1)
+root.left.right = Node(6)
+root.left.right.right = Node(7)
+root.left.right.left = Node(4)
+root.right.right = Node(14)
+root.right.right.left = Node(13)
+
+# Drawing the graph of the tree rooted at 'root'
+root.draw_graph()
+
+# get the graph object and position:
+tree_graph, tree_pos = root.build_graph()
+</code></pre>
+<p><strong>Explanation:</strong></p>
+<ol>
+<li>
+<p><strong>Creating the Tree:</strong></p>
+<ul>
+<li>We start by creating the root node of the tree with the value <code>8</code>:
+  <code>python
+  root = Node(8)</code></li>
+<li>Then, we create the left and right children of the root node:
+  <code>python
+  root.left = Node(3)
+  root.right = Node(10)</code></li>
+<li>We continue this process to build the subsequent levels of the tree, assigning left and right children to the existing nodes. This creates a specific tree structure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Drawing the Graph:</strong></p>
+<ul>
+<li>The <code>draw_graph()</code> method is called on the <code>root</code> node:
+  <code>python
+  root.draw_graph()</code></li>
+<li>This initiates the process of building the <code>networkx</code> graph representation of the entire tree (starting from the <code>root</code>) and then uses <code>matplotlib</code> to display a visual representation of the tree structure. Each node in the tree will be shown with its value, and the connections between parent and child nodes will be represented by edges.</li>
+</ul>
+</li>
+<li>
+<p><strong>Accessing the Graph Object and Positions:</strong></p>
+<ul>
+<li>The <code>build_graph()</code> method can also be called directly if you need to access the underlying <code>networkx</code> graph object and the calculated positions of the nodes for further manipulation or analysis:
+  <code>python
+  tree_graph, tree_pos = root.build_graph()</code></li>
+<li><code>tree_graph</code>: This variable will hold the <code>networkx.DiGraph</code> object representing the tree. You can use <code>networkx</code> functions on this object to analyze the tree's properties (e.g., number of nodes, edges, connectivity).</li>
+<li><code>tree_pos</code>: This variable will hold a dictionary where the keys are the node values and the values are their (x, y) coordinates in the layout generated for visualization. This can be useful if you want to customize the drawing or use the layout information for other purposes.</li>
+</ul>
+</li>
+</ol>
+<p>This example demonstrates how easily you can create a tree structure using the <code>Node</code> class and visualize it with a single method call. The ability to access the underlying graph object also provides flexibility for more advanced operations.
+```</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Jordan-buwa" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://linkedin.com/in/jordan-kevin-buwa-mbouobda-163762257/" target="_blank" rel="noopener" title="linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

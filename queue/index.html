@@ -1,0 +1,986 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../stack/">
+      
+      
+        <link rel="next" href="../tree/">
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Queue - Implementation of various data structures in Python from scratch</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#class-definition" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Implementation of various data structures in Python from scratch" class="md-header__button md-logo" aria-label="Implementation of various data structures in Python from scratch" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Implementation of various data structures in Python from scratch
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Queue
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Jordan-buwa/data-structures-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Implementation of various data structures in Python from scratch" class="md-nav__button md-logo" aria-label="Implementation of various data structures in Python from scratch" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Implementation of various data structures in Python from scratch
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Jordan-buwa/data-structures-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Array
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linked_list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linked List
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Queue
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Queue
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class Definition
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class Attributes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__init__self-paranone" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__(self, para=None)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enqueueself-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      enqueue(self, new)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isnullself" class="md-nav__link">
+    <span class="md-ellipsis">
+      isNull(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dequeueself" class="md-nav__link">
+    <span class="md-ellipsis">
+      dequeue(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rearself" class="md-nav__link">
+    <span class="md-ellipsis">
+      rear(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#peekself" class="md-nav__link">
+    <span class="md-ellipsis">
+      peek(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isfullself" class="md-nav__link">
+    <span class="md-ellipsis">
+      isFull(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display_queueself" class="md-nav__link">
+    <span class="md-ellipsis">
+      display_queue(self)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Binary Tree
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../node/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Node
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class Definition
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Class Attributes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__init__self-paranone" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__(self, para=None)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enqueueself-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      enqueue(self, new)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isnullself" class="md-nav__link">
+    <span class="md-ellipsis">
+      isNull(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dequeueself" class="md-nav__link">
+    <span class="md-ellipsis">
+      dequeue(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rearself" class="md-nav__link">
+    <span class="md-ellipsis">
+      rear(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#peekself" class="md-nav__link">
+    <span class="md-ellipsis">
+      peek(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isfullself" class="md-nav__link">
+    <span class="md-ellipsis">
+      isFull(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display_queueself" class="md-nav__link">
+    <span class="md-ellipsis">
+      display_queue(self)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Queue</h1>
+
+<pre><code class="language-markdown"># The `Queue` Class: A Queue Implementation using `LinkedList`
+
+This page describes the `Queue` class, which implements a queue data structure using our custom `LinkedList` class as its underlying storage.
+
+```python
+from .linked_lists import LinkedList
+
+class Queue:
+    &quot;&quot;&quot;N is the max size of our queue&quot;&quot;&quot;
+    N = 20
+
+
+    def __init__(self, para=None):  # Initialize with an optional LinkedList
+        if para is None:
+            self.queue = LinkedList()  # Create an empty LinkedList if not provided
+        else:
+            self.queue = para  # Use the provided LinkedList
+        self.size = self.queue.get_length()  # Initialize size
+
+    def enqueue(self, new):
+        if not self.isFull():
+            self.queue.InsertAtEnd(new)  # Use InsertAtEnd for LinkedList
+            self.size += 1  # Update size
+        else:
+            raise IndexError(&quot;The queue is full&quot;)
+
+    def isNull(self):
+        return self.size == 0  # Use size attribute
+
+    def dequeue(self):
+        if not self.isNull():
+            removed_item = self.queue[0]  # Access the front
+            self.queue.deleteItem(0)  # Remove from the front using deleteItem
+            self.size -= 1  # Update size
+            return removed_item
+        else:
+            raise IndexError(&quot;The queue is empty&quot;)
+
+    def rear(self):
+        if not self.isNull():
+            return self.queue.last_node().value  # Access the last node's value
+        else:
+            return None
+
+    def peek(self):
+        if not self.isNull():
+            return self.queue[0]  # Access the front
+        else:
+            return None
+
+    def isFull(self):
+        return self.size == self.__class__.N
+
+    def display_queue(self):
+        self.queue.display()  # LinkedList's display method
+</code></pre>
+<h2 id="class-definition">Class Definition</h2>
+<p>The <code>Queue</code> class implements a First-In, First-Out (FIFO) data structure, where elements are added to the rear and removed from the front. It utilizes a <code>LinkedList</code> to store the queue elements.</p>
+<h2 id="class-attributes">Class Attributes</h2>
+<ul>
+<li><code>N = 20</code>: A class-level constant defining the maximum size of the queue.</li>
+</ul>
+<h2 id="__init__self-paranone"><code>__init__(self, para=None)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This is the constructor for the <code>Queue</code> class. It initializes a new queue object.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>para</code>: An optional <code>LinkedList</code> object. If provided, this linked list will be used as the underlying storage for the queue. If not provided, a new empty <code>LinkedList</code> is created.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong><ul>
+<li>It initializes the <code>self.queue</code> attribute with either the provided <code>LinkedList</code> or a new empty one.</li>
+<li>It initializes the <code>self.size</code> attribute to the current length of the <code>self.queue</code> using the <code>get_length()</code> method of the <code>LinkedList</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="enqueueself-new"><code>enqueue(self, new)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Adds a new element to the rear (end) of the queue.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>new</code>: The element to be added to the queue.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong><ul>
+<li>It first checks if the queue is full using the <code>self.isFull()</code> method.</li>
+<li>If the queue is not full, it uses the <code>InsertAtEnd()</code> method of the underlying <code>LinkedList</code> to add the <code>new</code> element at the end of the list (which represents the rear of the queue).</li>
+<li>It then increments the <code>self.size</code> of the queue.</li>
+<li>If the queue is full, it raises an <code>IndexError</code> indicating that the queue is full.</li>
+</ul>
+</li>
+</ul>
+<h2 id="isnullself"><code>isNull(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Checks if the queue is empty.</li>
+<li><strong>Functionality:</strong> It returns <code>True</code> if the <code>self.size</code> of the queue is 0, and <code>False</code> otherwise.</li>
+</ul>
+<h2 id="dequeueself"><code>dequeue(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Removes and returns the element from the front of the queue (the element that was added earliest).</li>
+<li><strong>Functionality:</strong><ul>
+<li>It first checks if the queue is empty using <code>self.isNull()</code>.</li>
+<li>If the queue is not empty, it retrieves the element at the front of the <code>LinkedList</code> using index <code>0</code> (<code>self.queue[0]</code>).</li>
+<li>It then removes this element from the front of the <code>LinkedList</code> using the <code>deleteItem(0)</code> method.</li>
+<li>It decrements the <code>self.size</code> of the queue.</li>
+<li>It returns the <code>removed_item</code>.</li>
+<li>If the queue is empty, it raises an <code>IndexError</code> indicating that the queue is empty.</li>
+</ul>
+</li>
+</ul>
+<h2 id="rearself"><code>rear(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Returns the element at the rear (end) of the queue without removing it.</li>
+<li><strong>Functionality:</strong><ul>
+<li>It first checks if the queue is empty using <code>self.isNull()</code>.</li>
+<li>If the queue is not empty, it accesses the last node of the <code>LinkedList</code> using <code>self.queue.last_node()</code> and returns its <code>value</code>.</li>
+<li>If the queue is empty, it returns <code>None</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="peekself"><code>peek(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Returns the element at the front of the queue without removing it.</li>
+<li><strong>Functionality:</strong><ul>
+<li>It first checks if the queue is empty using <code>self.isNull()</code>.</li>
+<li>If the queue is not empty, it accesses the element at the front of the <code>LinkedList</code> using index <code>0</code> (<code>self.queue[0]</code>) and returns it.</li>
+<li>If the queue is empty, it returns <code>None</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="isfullself"><code>isFull(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Checks if the queue is full (reached its maximum capacity).</li>
+<li><strong>Functionality:</strong> It compares the current <code>self.size</code> of the queue with the maximum size <code>self.__class__.N</code> (which is 20). It returns <code>True</code> if the queue is full and <code>False</code> otherwise.</li>
+</ul>
+<h2 id="display_queueself"><code>display_queue(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Displays the elements currently in the queue.</li>
+<li><strong>Functionality:</strong> It calls the <code>display()</code> method of the underlying <code>LinkedList</code> to print the elements of the queue. The order of elements in the linked list represents the order in the queue (front to rear).</li>
+</ul>
+<pre><code class="language-markdown">## Example Usage of the `Queue` Class
+
+This section demonstrates how to create and interact with `Queue` objects, showcasing the enqueue, dequeue, peek, and isEmpty operations.
+
+```python
+from data_structures.queue import Queue # Assuming your Queue class is in 'queue.py'
+from data_structures.linked_lists import LinkedList
+
+# Initialize a queue using a LinkedList (implicitly, as no LinkedList is passed)
+my_queue = Queue()
+
+# Enqueue elements
+my_queue.enqueue(10)
+my_queue.enqueue(20)
+my_queue.enqueue(30)
+
+# Display the queue
+my_queue.display_queue()  # Output: 10-&gt;20-&gt;30-&gt;
+
+# Dequeue an element
+removed_element = my_queue.dequeue()
+print(f&quot;Removed element: {removed_element}&quot;)  # Output: Removed element: 10
+
+# Display the queue after dequeue
+my_queue.display_queue()  # Output: 20-&gt;30-&gt;
+
+# Peek at the front element
+front_element = my_queue.peek()
+print(f&quot;Front element: {front_element}&quot;)  # Output: Front element: 20
+
+# Check if the queue is empty
+is_empty = my_queue.isNull()
+print(f&quot;Is queue empty: {is_empty}&quot;)  # Output: Is queue empty: False
+</code></pre>
+<p><strong>Explanation of the Example:</strong></p>
+<ol>
+<li>
+<p><strong>Initializing a Queue:</strong>
+    <code>python
+    my_queue = Queue()</code>
+    An instance of the <code>Queue</code> class is created. Since no <code>LinkedList</code> object is explicitly passed during initialization, the <code>Queue</code> constructor creates a new empty <code>LinkedList</code> to serve as the underlying storage.</p>
+</li>
+<li>
+<p><strong>Enqueueing Elements:</strong>
+    <code>python
+    my_queue.enqueue(10)
+    my_queue.enqueue(20)
+    my_queue.enqueue(30)</code>
+    The <code>enqueue()</code> method adds elements to the rear of the queue. Here, <code>10</code> is added first, then <code>20</code>, and finally <code>30</code>. The <code>LinkedList</code>'s <code>InsertAtEnd()</code> method is used for this operation.</p>
+</li>
+<li>
+<p><strong>Displaying the Queue:</strong>
+    <code>python
+    my_queue.display_queue()  # Output: 10-&gt;20-&gt;30-&gt;</code>
+    The <code>display_queue()</code> method calls the <code>display()</code> method of the underlying <code>LinkedList</code>, which prints the elements from the front to the rear of the queue.</p>
+</li>
+<li>
+<p><strong>Dequeueing an Element:</strong>
+    <code>python
+    removed_element = my_queue.dequeue()
+    print(f"Removed element: {removed_element}")  # Output: Removed element: 10</code>
+    The <code>dequeue()</code> method removes and returns the element at the front of the queue (the element that was enqueued first). Here, <code>10</code> is removed. The <code>LinkedList</code>'s element at index <code>0</code> is accessed and then deleted using <code>deleteItem(0)</code>.</p>
+</li>
+<li>
+<p><strong>Displaying After Dequeue:</strong>
+    <code>python
+    my_queue.display_queue()  # Output: 20-&gt;30-&gt;</code>
+    After dequeueing, the <code>display_queue()</code> method shows the remaining elements in the queue, with <code>20</code> now at the front.</p>
+</li>
+<li>
+<p><strong>Peeking at the Front:</strong>
+    <code>python
+    front_element = my_queue.peek()
+    print(f"Front element: {front_element}")  # Output: Front element: 20</code>
+    The <code>peek()</code> method returns the element at the front of the queue without removing it. Here, it returns <code>20</code>.</p>
+</li>
+<li>
+<p><strong>Checking if Empty:</strong>
+    <code>python
+    is_empty = my_queue.isNull()
+    print(f"Is queue empty: {is_empty}")  # Output: Is queue empty: False</code>
+    The <code>isNull()</code> method checks if the queue is empty by examining its size. Since there are still elements in the queue, it returns <code>False</code>.</p>
+</li>
+</ol>
+<p>```</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Jordan-buwa" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://linkedin.com/in/jordan-kevin-buwa-mbouobda-163762257/" target="_blank" rel="noopener" title="linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1132 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../linked_list/">
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Array - Implementation of various data structures in Python from scratch</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CFira+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Fira Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#__init__self-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Implementation of various data structures in Python from scratch" class="md-header__button md-logo" aria-label="Implementation of various data structures in Python from scratch" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Implementation of various data structures in Python from scratch
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Array
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Jordan-buwa/data-structures-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Implementation of various data structures in Python from scratch" class="md-nav__button md-logo" aria-label="Implementation of various data structures in Python from scratch" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Implementation of various data structures in Python from scratch
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Jordan-buwa/data-structures-python" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Structures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Data Structures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Array
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Array
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#__init__self-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__(self, data)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__str__self" class="md-nav__link">
+    <span class="md-ellipsis">
+      __str__(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__getitem__self-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getitem__(self, index)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__len__self" class="md-nav__link">
+    <span class="md-ellipsis">
+      __len__(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maxself" class="md-nav__link">
+    <span class="md-ellipsis">
+      max(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minself" class="md-nav__link">
+    <span class="md-ellipsis">
+      min(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sumself" class="md-nav__link">
+    <span class="md-ellipsis">
+      sum(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#show_arrayself" class="md-nav__link">
+    <span class="md-ellipsis">
+      show_array(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop_arrayself" class="md-nav__link">
+    <span class="md-ellipsis">
+      pop_array(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insertself-elt-pos-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      insert(self, elt, pos=-1)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendself-newelt" class="md-nav__link">
+    <span class="md-ellipsis">
+      append(self, NewElt)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#meanself" class="md-nav__link">
+    <span class="md-ellipsis">
+      mean(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stdself" class="md-nav__link">
+    <span class="md-ellipsis">
+      std(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-usage-of-the-array_new-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Usage of the Array_new Class
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linked_list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linked List
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Queue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Binary Tree
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../node/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Node
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#__init__self-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__(self, data)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__str__self" class="md-nav__link">
+    <span class="md-ellipsis">
+      __str__(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__getitem__self-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getitem__(self, index)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#__len__self" class="md-nav__link">
+    <span class="md-ellipsis">
+      __len__(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maxself" class="md-nav__link">
+    <span class="md-ellipsis">
+      max(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minself" class="md-nav__link">
+    <span class="md-ellipsis">
+      min(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sumself" class="md-nav__link">
+    <span class="md-ellipsis">
+      sum(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#show_arrayself" class="md-nav__link">
+    <span class="md-ellipsis">
+      show_array(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop_arrayself" class="md-nav__link">
+    <span class="md-ellipsis">
+      pop_array(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insertself-elt-pos-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      insert(self, elt, pos=-1)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendself-newelt" class="md-nav__link">
+    <span class="md-ellipsis">
+      append(self, NewElt)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#meanself" class="md-nav__link">
+    <span class="md-ellipsis">
+      mean(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stdself" class="md-nav__link">
+    <span class="md-ellipsis">
+      std(self)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-usage-of-the-array_new-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Usage of the Array_new Class
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Array</h1>
+
+<pre><code class="language-markdown"># The `Array_new` Class: A Custom Array Implementation
+
+This document describes the `Array_new` class, which provides a custom implementation of an array-like data structure in Python, leveraging the power and efficiency of the `numpy` library as its backend.
+
+## Class Definition
+
+```python
+import numpy as np
+
+class Array_new:
+  def __init__(self, data):
+    self.data = np.array(data)
+    self.shape = self.data.shape
+    self.size = np.array(data).size
+    self.dim = np.array(data).ndim
+
+  def __str__(self):
+    &quot;&quot;&quot;Returns a list where all the elements are transformed to strings&quot;&quot;&quot;
+    return f&quot;Data = {self.data}&quot;
+
+  def __getitem__(self, index):
+      if isinstance(index, int):
+          # Handle single index subscription
+          return self.data[index]
+      elif isinstance(index, slice):
+          # Handle slicing
+          start, stop, step = index.indices(len(self))
+          return Array_new(self.data[start:stop:step])  # Create a new Array_new object for the slice
+      else:
+          raise TypeError(&quot;Invalid index type&quot;)
+  def __len__(self):
+    return len(self.data)
+
+
+  def max(self):
+      &quot;&quot;&quot;Returns the maximum value in the array.&quot;&quot;&quot;
+      return max(self.data)
+
+  def min(self):
+      &quot;&quot;&quot;Returns the minimum value in the array.&quot;&quot;&quot;
+      return min(self.data)
+
+  def sum(self):
+      &quot;&quot;&quot;Returns the sum of all elements in the array.&quot;&quot;&quot;
+      return sum(self.data)
+
+  def show_array(self):
+    print(self.data)
+
+  def pop_array(self):
+    a = self.data[-1]
+    self.data = self.data[:self.__len__()-1]
+    return a
+
+  def insert(self, elt, pos = -1):
+    return np.insert(np.array(self.data), pos, elt)
+
+
+  def append(self, NewElt):
+    self.data = np.append(self.data, NewElt)
+    self.shape = self.data.shape
+    self.size = self.data.size
+    self.dim = self.data.ndim
+
+
+  def mean(self):
+      &quot;&quot;&quot;Returns the mean (average) of the array elements.&quot;&quot;&quot;
+      return self.sum() / len(self) if len(self) else 0
+
+  def std(self):
+      &quot;&quot;&quot;Returns the standard deviation of the array elements.&quot;&quot;&quot;
+      mean = self.mean()
+      variance = sum([(x - mean) ** 2 for x in self.data]) / len(self)
+      return variance ** 0.5
+</code></pre>
+<h2 id="__init__self-data"><code>__init__(self, data)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This is the constructor for the <code>Array_new</code> class. It initializes a new array object based on the input data.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>data</code>: An iterable (like a list or tuple) containing the initial elements of the array.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong><ul>
+<li>It converts the input <code>data</code> into a <code>numpy</code> array and stores it in the <code>self.data</code> attribute. This leverages <code>numpy</code>'s efficient array operations.</li>
+<li>It calculates and stores the <code>shape</code> (dimensions of the array), <code>size</code> (total number of elements), and <code>dim</code> (number of dimensions) of the <code>numpy</code> array.</li>
+</ul>
+</li>
+</ul>
+<h2 id="__str__self"><code>__str__(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This special method defines how the <code>Array_new</code> object should be represented as a string.</li>
+<li><strong>Functionality:</strong> It returns a formatted string that displays the <code>self.data</code> (the underlying <code>numpy</code> array).</li>
+</ul>
+<h2 id="__getitem__self-index"><code>__getitem__(self, index)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This special method enables item access (using square brackets <code>[]</code>) for the <code>Array_new</code> object, similar to how you would access elements in a standard Python list or a <code>numpy</code> array.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>index</code>: The index or slice specifying the element(s) to retrieve.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong><ul>
+<li><strong>Integer Index:</strong> If <code>index</code> is an integer, it returns the element at that specific position in the <code>self.data</code> array.</li>
+<li><strong>Slice:</strong> If <code>index</code> is a slice object, it extracts the specified portion of the <code>self.data</code> array and returns a <em>new</em> <code>Array_new</code> object containing the sliced data. This ensures that slicing an <code>Array_new</code> object results in another <code>Array_new</code> object.</li>
+<li><strong>Invalid Type:</strong> If <code>index</code> is of any other type, it raises a <code>TypeError</code> indicating an invalid index.</li>
+</ul>
+</li>
+</ul>
+<h2 id="__len__self"><code>__len__(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> This special method enables the use of the <code>len()</code> function on an <code>Array_new</code> object.</li>
+<li><strong>Functionality:</strong> It returns the number of elements in the <code>self.data</code> array.</li>
+</ul>
+<h2 id="maxself"><code>max(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Returns the maximum value present in the array.</li>
+<li><strong>Functionality:</strong> It uses the built-in <code>max()</code> function on the <code>self.data</code> (the <code>numpy</code> array) to find and return the largest element.</li>
+</ul>
+<h2 id="minself"><code>min(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Returns the minimum value present in the array.</li>
+<li><strong>Functionality:</strong> It uses the built-in <code>min()</code> function on the <code>self.data</code> to find and return the smallest element.</li>
+</ul>
+<h2 id="sumself"><code>sum(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Returns the sum of all the elements in the array.</li>
+<li><strong>Functionality:</strong> It uses the built-in <code>sum()</code> function on the <code>self.data</code> to calculate and return the sum of all its elements.</li>
+</ul>
+<h2 id="show_arrayself"><code>show_array(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Prints the underlying <code>numpy</code> array to the console.</li>
+<li><strong>Functionality:</strong> It uses the <code>print()</code> function to display the contents of the <code>self.data</code> attribute.</li>
+</ul>
+<h2 id="pop_arrayself"><code>pop_array(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Removes and returns the last element of the array, similar to the <code>pop()</code> method of a Python list.</li>
+<li><strong>Functionality:</strong><ul>
+<li>It stores the last element of <code>self.data</code> in a temporary variable <code>a</code>.</li>
+<li>It then updates <code>self.data</code> to contain all elements except the last one using slicing.</li>
+<li>Finally, it returns the removed element <code>a</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="insertself-elt-pos-1"><code>insert(self, elt, pos=-1)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Inserts a new element (<code>elt</code>) into the array at a specified position (<code>pos</code>).</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>elt</code>: The element to be inserted.</li>
+<li><code>pos</code>: The index at which the element should be inserted. A negative index counts from the end of the array (default is -1, which inserts before the last element).</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong> It uses the <code>np.insert()</code> function from <code>numpy</code> to create a <em>new</em> <code>numpy</code> array with the element inserted at the given position. <strong>Note:</strong> This method returns a new <code>numpy</code> array and does not modify the <code>self.data</code> attribute in place. You would need to assign the result back to <code>self.data</code> if you want to update the array.</li>
+</ul>
+<h2 id="appendself-newelt"><code>append(self, NewElt)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Adds a new element (<code>NewElt</code>) to the end of the array, similar to the <code>append()</code> method of a Python list.</li>
+<li><strong>Parameters:</strong><ul>
+<li><code>NewElt</code>: The element to be added to the end of the array.</li>
+</ul>
+</li>
+<li><strong>Functionality:</strong><ul>
+<li>It uses the <code>np.append()</code> function from <code>numpy</code> to create a new <code>numpy</code> array with the <code>NewElt</code> added at the end.</li>
+<li>It then updates the <code>self.data</code>, <code>self.shape</code>, <code>self.size</code>, and <code>self.dim</code> attributes of the <code>Array_new</code> object to reflect the changes.</li>
+</ul>
+</li>
+</ul>
+<h2 id="meanself"><code>mean(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Calculates and returns the arithmetic mean (average) of all the elements in the array.</li>
+<li><strong>Functionality:</strong><ul>
+<li>It first calculates the sum of the array elements using <code>self.sum()</code>.</li>
+<li>It then divides the sum by the number of elements (obtained using <code>len(self)</code>) to get the mean.</li>
+<li>If the array is empty, it returns 0 to avoid division by zero.</li>
+</ul>
+</li>
+</ul>
+<h2 id="stdself"><code>std(self)</code></h2>
+<ul>
+<li><strong>Purpose:</strong> Calculates and returns the standard deviation of the elements in the array. Standard deviation measures the spread or dispersion of the data around the mean.</li>
+<li><strong>Functionality:</strong><ul>
+<li>It first calculates the mean of the array using <code>self.mean()</code>.</li>
+<li>It then calculates the variance by summing the squared differences between each element and the mean, and dividing by the number of elements.</li>
+<li>Finally, it returns the square root of the variance, which is the standard deviation.</li>
+</ul>
+</li>
+</ul>
+<p>This <code>Array_new</code> class provides a convenient wrapper around <code>numpy</code> arrays, offering a more object-oriented interface with methods for common array operations while still benefiting from <code>numpy</code>'s performance for numerical computations.</p>
+<h2 id="example-usage-of-the-array_new-class">Example Usage of the <code>Array_new</code> Class</h2>
+<p>This section provides practical examples of how to create and interact with <code>Array_new</code> objects, demonstrating the usage of various methods defined in the class.</p>
+<pre><code class="language-python"># Create an Array_new object
+my_array = Array_new([1, 2, 3, 4, 5])
+
+# Access elements by index
+print(my_array[0])  # Output: 1
+print(my_array[2])  # Output: 3
+
+# Get the shape of the array
+print(my_array.shape)  # Output: (5,)
+
+# Get the size of the array
+print(my_array.size)  # Output: 5
+
+# Get the dimension of the array
+print(my_array.dim)  # Output: 1
+
+# Get the maximum value
+print(my_array.max())  # Output: 5
+
+# Get the minimum value
+print(my_array.min())  # Output: 1
+
+# Get the sum of all elements
+print(my_array.sum())  # Output: 15
+
+# Get the mean (average)
+print(my_array.mean())  # Output: 3.0
+
+# Get the standard deviation
+print(my_array.std())  # Output: 1.4142135623730951
+
+# Display the array
+my_array.show_array()
+
+# Remove and return the last element
+removed_element = my_array.pop_array()
+print(f&quot;Removed element: {removed_element}&quot;)
+
+# Insert element at a specific position (default at the end)
+inserted_array = my_array.insert(6, 2) # Note: insert returns a new numpy array
+print(f&quot;Array after insertion: {inserted_array}&quot;)
+
+# Append new element at the end
+my_array.append(7)
+print(my_array)
+</code></pre>
+<p><strong>Explanation of the Example:</strong></p>
+<ol>
+<li>
+<p><strong>Creating an <code>Array_new</code> Object:</strong>
+    <code>python
+    my_array = Array_new([1, 2, 3, 4, 5])</code>
+    This line creates an instance of the <code>Array_new</code> class, initializing it with a Python list <code>[1, 2, 3, 4, 5]</code>. The constructor converts this list into a <code>numpy</code> array and sets the <code>shape</code>, <code>size</code>, and <code>dim</code> attributes.</p>
+</li>
+<li>
+<p><strong>Accessing Elements by Index:</strong>
+    <code>python
+    print(my_array[0])  # Output: 1
+    print(my_array[2])  # Output: 3</code>
+    This demonstrates the use of the <code>__getitem__</code> method to access elements at specific indices (0-based).</p>
+</li>
+<li>
+<p><strong>Getting Array Properties:</strong>
+    <code>python
+    print(my_array.shape)  # Output: (5,)
+    print(my_array.size)   # Output: 5
+    print(my_array.dim)    # Output: 1</code>
+    These lines access the <code>shape</code> (a tuple indicating the dimensions), <code>size</code> (the total number of elements), and <code>dim</code> (the number of dimensions) of the array.</p>
+</li>
+<li>
+<p><strong>Statistical Operations:</strong>
+    <code>python
+    print(my_array.max())   # Output: 5
+    print(my_array.min())   # Output: 1
+    print(my_array.sum())   # Output: 15
+    print(my_array.mean())  # Output: 3.0
+    print(my_array.std())   # Output: 1.4142135623730951</code>
+    These lines demonstrate the use of the <code>max()</code>, <code>min()</code>, <code>sum()</code>, <code>mean()</code>, and <code>std()</code> methods to perform basic statistical calculations on the array elements.</p>
+</li>
+<li>
+<p><strong>Displaying the Array:</strong>
+    <code>python
+    my_array.show_array()</code>
+    This calls the <code>show_array()</code> method, which prints the underlying <code>numpy</code> array to the console.</p>
+</li>
+<li>
+<p><strong>Removing the Last Element:</strong>
+    <code>python
+    removed_element = my_array.pop_array()
+    print(f"Removed element: {removed_element}")</code>
+    The <code>pop_array()</code> method removes and returns the last element of the array.</p>
+</li>
+<li>
+<p><strong>Inserting an Element:</strong>
+    <code>python
+    inserted_array = my_array.insert(6, 2) # Note: insert returns a new numpy array
+    print(f"Array after insertion: {inserted_array}")</code>
+    The <code>insert()</code> method inserts the value <code>6</code> at index <code>2</code>. <strong>Important:</strong> As noted in the code comment, the <code>insert()</code> method from <code>numpy</code> returns a <em>new</em> <code>numpy</code> array. The original <code>my_array</code> object's <code>data</code> attribute is not modified in place by this implementation.</p>
+</li>
+<li>
+<p><strong>Appending an Element:</strong>
+    <code>python
+    my_array.append(7)
+    print(my_array)</code>
+    The <code>append()</code> method adds the value <code>7</code> to the end of the array. This method <em>does</em> modify the <code>self.data</code> attribute of the <code>my_array</code> object in place and updates its <code>shape</code>, <code>size</code>, and <code>dim</code>.</p>
+</li>
+</ol>
+<p>This example provides a clear illustration of how to use the <code>Array_new</code> class for common array operations. Pay close attention to the behavior of the <code>insert()</code> method, which returns a new array rather than modifying the original in place.
+```</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Jordan-buwa" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://linkedin.com/in/jordan-kevin-buwa-mbouobda-163762257/" target="_blank" rel="noopener" title="linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
