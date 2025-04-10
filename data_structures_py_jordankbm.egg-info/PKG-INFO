@@ -8,7 +8,6 @@ Author-email: jmbouobda@aimsammi.org
 License: MIT
 Classifier: Programming Language :: Python :: 3
 Classifier: licence :: OSI Approved :: MIT Licence
-Classifier: Operating System :: OS Independant
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy==2.2.4
